@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     'paths' => [
         'api/*',
         'sanctum/csrf-cookie',
@@ -9,9 +8,10 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [
+    'allowed_origins' => array_filter([
+        env('FRONTEND_URL'),
         'http://localhost:5173',
-    ],
+    ]),
 
     'allowed_origins_patterns' => [],
 
@@ -22,5 +22,4 @@ return [
     'max_age' => 0,
 
     'supports_credentials' => true,
-
 ];
