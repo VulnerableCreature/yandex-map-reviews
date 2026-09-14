@@ -15,9 +15,19 @@ RUN docker-php-ext-install \
         mbstring \
         bcmath
 
-RUN pecl channel-update pecl.php.net \
-    && pecl install redis \
-    && docker-php-ext-enable redis
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        libssl-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN git clone --depth 1 --branch 6.3.0 https://github.com/phpredis/phpredis.git /tmp/phpredis \
+    && cd /tmp/phpredis \
+    && phpize \
+    && ./configure \
+    && make -j"$(nproc)" \
+    && make install \
+    && docker-php-ext-enable redis \
+    && rm -rf /tmp/phpredis
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
