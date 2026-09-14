@@ -6,22 +6,26 @@ export const useAuthStore = defineStore('auth', {
     user: null,
     checked: false,
   }),
+
   getters: {
     isAuthenticated: (state) => !!state.user,
   },
+
   actions: {
     async login(email, password) {
       await ensureCsrfCookie()
-      let res = await http.post('/api/login', { email, password })
+      await http.post('/login', { email, password })
       await this.fetchMe()
     },
+
     async logout() {
-      await http.post('/api/logout')
+      await http.post('/logout')
       this.user = null
     },
+
     async fetchMe() {
       try {
-        const { data } = await http.get('/api/me')
+        const { data } = await http.get('/me')
         this.user = data.user
       } catch {
         this.user = null
