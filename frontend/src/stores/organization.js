@@ -27,7 +27,7 @@ export const useOrganizationStore = defineStore('organization', {
       this.loading = true
       this.error = null
       try {
-        const { data } = await http.get('/api/organization')
+        const { data } = await http.get('/organization')
         this.organization = data.organization
         this.maybeStartPolling()
       } catch (e) {
@@ -41,7 +41,7 @@ export const useOrganizationStore = defineStore('organization', {
       this.saving = true
       this.saveError = null
       try {
-        const { data } = await http.post('/api/organization', { url })
+        const { data } = await http.post('/organization', { url })
         this.organization = data.organization
         this.reviews = []
         this.reviewsMeta = { current_page: 1, last_page: 1, per_page: 50, total: 0 }
@@ -57,7 +57,7 @@ export const useOrganizationStore = defineStore('organization', {
     async reparse() {
       this.saveError = null
       try {
-        const { data } = await http.post('/api/organization/reparse')
+        const { data } = await http.post('/organization/reparse')
         this.organization = data.organization
         this.maybeStartPolling()
       } catch (e) {
@@ -69,7 +69,7 @@ export const useOrganizationStore = defineStore('organization', {
       this.reviewsLoading = true
       this.reviewsError = null
       try {
-        const { data } = await http.get('/api/reviews', { params: { page } })
+        const { data } = await http.get('/reviews', { params: { page } })
         this.reviews = data.data
         this.reviewsMeta = data.meta
       } catch (e) {
@@ -85,7 +85,7 @@ export const useOrganizationStore = defineStore('organization', {
 
       this.pollTimer = setInterval(async () => {
         try {
-          const { data } = await http.get('/api/organization')
+          const { data } = await http.get('/organization')
           this.organization = data.organization
           if (!ACTIVE_STATUSES.includes(data.organization?.parsing_status)) {
             this.stopPolling()
