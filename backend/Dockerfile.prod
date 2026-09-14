@@ -16,7 +16,7 @@ RUN docker-php-ext-install \
         bcmath
 
 RUN pecl channel-update pecl.php.net \
-    && pecl install redis-6.3.0 \
+    && pecl install redis \
     && docker-php-ext-enable redis
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
