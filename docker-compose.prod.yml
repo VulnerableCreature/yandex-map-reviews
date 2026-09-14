@@ -15,7 +15,7 @@ services:
   queue-worker:
     build:
       context: ./backend
-      dockerfile: DDockerfile.prod
+      dockerfile: Dockerfile.prod
     command: php artisan queue:work redis --tries=3 --backoff=30,120,300 --timeout=600
     env_file:
       - ./backend/.env
